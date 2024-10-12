@@ -1,5 +1,6 @@
 package br.com.car.carrental.driver.model;
 
+import br.com.car.carrental.driver.dto.MotoristaAtualizarDTO;
 import br.com.car.carrental.driver.dto.MotoristaDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -42,13 +43,14 @@ public class Motorista extends Pessoa{
         this.numeroCNH = motoristaDTO.numeroCNH();
     }
 
-    public void atualizarInformacoes(@Valid MotoristaDTO dadosAtualizacaoMotorista) {
+    public void atualizarInformacoes(@Valid MotoristaAtualizarDTO dadosAtualizacaoMotorista) {
         ofNullable(dadosAtualizacaoMotorista.nome()).ifPresent(this::setNome);
         ofNullable(dadosAtualizacaoMotorista.dataNascimento()).ifPresent(this::setDataNascimento);
         ofNullable(dadosAtualizacaoMotorista.email()).ifPresent(this::setEmail);
         ofNullable(dadosAtualizacaoMotorista.sexo()).ifPresent(this::setSexo);
         ofNullable(dadosAtualizacaoMotorista.numeroCNH()).ifPresent(value -> this.numeroCNH = value);
         ofNullable(dadosAtualizacaoMotorista.cpf()).ifPresent(this::setCpf);
+        ofNullable(dadosAtualizacaoMotorista.ativo()).ifPresent(this::setAtivo);
         this.setLastUpdated(now());
     }
 

@@ -1,5 +1,6 @@
 package br.com.car.carrental.driver.service;
 
+import br.com.car.carrental.driver.dto.MotoristaAtualizarDTO;
 import br.com.car.carrental.driver.dto.MotoristaDTO;
 import br.com.car.carrental.driver.model.Motorista;
 import jakarta.transaction.Transactional;
@@ -14,7 +15,7 @@ public interface MotoristaService {
     Motorista buscarPorId(Long id);
 
     @Transactional
-    Motorista atualizarMotorista(@Valid MotoristaDTO motorista);
+    Motorista atualizarMotorista(@Valid MotoristaAtualizarDTO motorista);
 
     @Transactional
     void deletarMotorista(Long id);

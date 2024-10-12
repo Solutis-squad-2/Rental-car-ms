@@ -3,6 +3,7 @@ package br.com.car.carrental.driver.controller;
 
 
 
+import br.com.car.carrental.driver.dto.MotoristaAtualizarDTO;
 import br.com.car.carrental.driver.dto.MotoristaDTO;
 import br.com.car.carrental.driver.model.Motorista;
 import br.com.car.carrental.driver.service.MotoristaService;
@@ -24,7 +25,6 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/cliente")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Tag(name = "Cliente Controller", description = "Controller para gerenciamento de clientes (motoristas)")
 public class ClienteController {
 
@@ -77,10 +77,9 @@ public class ClienteController {
             @ApiResponse(responseCode = "400", description = "Dados de atualização inválidos."),
             @ApiResponse(responseCode = "404", description = "Cliente não encontrado.")
     })
-    public ResponseEntity<MotoristaDTO> atualizar(@RequestBody @Valid MotoristaDTO dadosAtualizacaoMotorista) {
-        Motorista motorista = motoristaService.atualizarMotorista(dadosAtualizacaoMotorista);
-        MotoristaDTO motoristaDTO = new MotoristaDTO(motorista);
-        return ResponseEntity.ok(motoristaDTO);
+    public ResponseEntity<MotoristaDTO> atualizar(@RequestBody @Valid MotoristaAtualizarDTO dadosAtualizacaoMotorista) {
+        var motorista = motoristaService.atualizarMotorista(dadosAtualizacaoMotorista);
+        return ResponseEntity.ok(new MotoristaDTO(motorista));
     }
 
     @Transactional

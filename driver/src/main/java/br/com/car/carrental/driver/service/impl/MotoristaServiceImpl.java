@@ -1,5 +1,6 @@
 package br.com.car.carrental.driver.service.impl;
 
+import br.com.car.carrental.driver.dto.MotoristaAtualizarDTO;
 import br.com.car.carrental.driver.dto.MotoristaDTO;
 import br.com.car.carrental.driver.model.Motorista;
 import br.com.car.carrental.driver.repository.MotoristaRepository;
@@ -46,11 +47,11 @@ public class MotoristaServiceImpl implements MotoristaService {
 
     @Override
     @Transactional
-    public Motorista atualizarMotorista(@Valid MotoristaDTO motoristaDTO) {
+    public Motorista atualizarMotorista(@Valid MotoristaAtualizarDTO motoristaDTO) {
         log.info("Atualizando motorista com dados: {}", motoristaDTO);
 
-        Motorista motorista = new Motorista(motoristaDTO);
-        log.info("Motorista encontrado para atualização: {}", motorista);
+        Motorista motorista = existeMotoristaPeloIdNoDto(motoristaDTO);
+        motorista.atualizarInformacoes(motoristaDTO);
         motoristaRepository.save(motorista);
         log.info("Motorista atualizado com sucesso: {}", motorista);
         return motorista;
@@ -92,6 +93,13 @@ public class MotoristaServiceImpl implements MotoristaService {
         return motoristaRepository.findById(id)
                 .orElseThrow(() -> {
                     log.warn("Motorista não encontrado para desativação: {}", id);
+                    return new EntityNotFoundException("Motorista não encontrado");
+                });
+    }
+    private Motorista existeMotoristaPeloIdNoDto(MotoristaAtualizarDTO dadosAtualizacaoMotorista) {
+        return motoristaRepository.findById(dadosAtualizacaoMotorista.id())
+                .orElseThrow(() -> {
+                    log.warn("Motorista não encontrado para atualização: {}", dadosAtualizacaoMotorista.id());
                     return new EntityNotFoundException("Motorista não encontrado");
                 });
     }
