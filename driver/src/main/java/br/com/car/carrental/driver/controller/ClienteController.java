@@ -4,6 +4,7 @@ package br.com.car.carrental.driver.controller;
 
 
 import br.com.car.carrental.driver.dto.MotoristaAtualizarDTO;
+import br.com.car.carrental.driver.dto.MotoristaCadastroDTO;
 import br.com.car.carrental.driver.dto.MotoristaDTO;
 import br.com.car.carrental.driver.model.Motorista;
 import br.com.car.carrental.driver.service.MotoristaService;
@@ -41,7 +42,7 @@ public class ClienteController {
             @ApiResponse(responseCode = "400", description = "Dados de cadastro inválidos.")
     })
     public ResponseEntity<MotoristaDTO> cadastrar(
-            @RequestBody @Valid MotoristaDTO dadosCadastroMotorista,
+            @RequestBody @Valid MotoristaCadastroDTO dadosCadastroMotorista,
             UriComponentsBuilder uriBuilder
     ) {
         var motorista = motoristaService.cadastrarMotorista(dadosCadastroMotorista);

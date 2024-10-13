@@ -1,6 +1,7 @@
 package br.com.car.carrental.driver.service;
 
 import br.com.car.carrental.driver.dto.MotoristaAtualizarDTO;
+import br.com.car.carrental.driver.dto.MotoristaCadastroDTO;
 import br.com.car.carrental.driver.dto.MotoristaDTO;
 import br.com.car.carrental.driver.model.Motorista;
 import jakarta.transaction.Transactional;
@@ -10,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface MotoristaService {
     @Transactional
-    Motorista cadastrarMotorista(@Valid MotoristaDTO motorista);
+    Motorista cadastrarMotorista(@Valid MotoristaCadastroDTO motorista);
 
     Motorista buscarPorId(Long id);
 
