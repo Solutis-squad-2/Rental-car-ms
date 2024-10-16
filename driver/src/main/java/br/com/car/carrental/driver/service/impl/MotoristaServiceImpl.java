@@ -1,6 +1,7 @@
 package br.com.car.carrental.driver.service.impl;
 
 import br.com.car.carrental.driver.dto.MotoristaAtualizarDTO;
+import br.com.car.carrental.driver.dto.MotoristaCadastroDTO;
 import br.com.car.carrental.driver.dto.MotoristaDTO;
 import br.com.car.carrental.driver.model.Motorista;
 import br.com.car.carrental.driver.repository.MotoristaRepository;
@@ -28,7 +29,7 @@ public class MotoristaServiceImpl implements MotoristaService {
 
 
     @Override
-    public Motorista cadastrarMotorista(@Valid MotoristaDTO motoristaDTO) {
+    public Motorista cadastrarMotorista(@Valid MotoristaCadastroDTO motoristaDTO) {
         Motorista motorista = new Motorista(motoristaDTO);
         motoristaRepository.save(motorista);
         log.info("Motorista cadastrado com sucesso: {}", motorista);
