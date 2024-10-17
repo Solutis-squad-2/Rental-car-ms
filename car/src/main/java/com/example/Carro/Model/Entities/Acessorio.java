@@ -26,4 +26,8 @@ public class Acessorio {
         @ManyToMany(mappedBy = "acessorios")
         @JsonIgnore
         private Set<Carro> carros;
+
+        public Acessorio(String descricao){
+                this.descricao = descricao;
+        }
 }

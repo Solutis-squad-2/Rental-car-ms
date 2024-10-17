@@ -23,4 +23,10 @@ public class ModeloCarro {
 
     @Enumerated(EnumType.STRING)
     private Categoria categoria;
+
+    public ModeloCarro(Categoria c,String descricao, Fabricante f){
+        this.descricao = descricao;
+        this.nomeFabricante = f;
+        this.categoria = c;
+    }
 }

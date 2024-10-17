@@ -26,4 +26,8 @@ public class Fabricante {
     @JsonIgnore
     private Set<ModeloCarro> modelosCarro;
 
+    public Fabricante(String nome){
+        this.nome = nome;
+    }
+
 }

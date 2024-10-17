@@ -39,4 +39,13 @@ public class Carro {
     private Set<Acessorio> acessorios;
 
     private String urlImagem;
+
+    public Carro(String placa, String chassi, String cor, float valorDiaria, boolean reserva, ModeloCarro modeloCarro) {
+        this.placa = placa;
+        this.chassi = chassi;
+        this.cor = cor;
+        this.valorDiaria = valorDiaria;
+        this.reserva = reserva;
+        this.modeloCarro = modeloCarro;
+    }
 }
