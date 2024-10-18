@@ -1,4 +1,4 @@
-package com.example.Carrinho.Model.Entities;
+package com.example.Cart.Model.Entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -39,4 +39,7 @@ public class Carrinho {
 
     @Column(nullable = false)
     private boolean confirmed;  // Indica se o aluguel foi confirmado ou está em processo
+
+    public Carrinho(long l, long l1, LocalDateTime localDateTime, LocalDateTime localDateTime1, double v, boolean b) {
+    }
 }

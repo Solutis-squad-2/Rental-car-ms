@@ -1,33 +1,33 @@
-package com.example.Carrinho.Controller;
+package com.example.Cart.Controller;
 
-import com.example.Carrinho.Model.DTO.CarrinhoDTO;
-import com.example.Carrinho.Model.Entities.Carrinho;
-import com.example.Carrinho.Service.CarrinhoService;
+import com.example.Cart.Model.DTO.CarrinhoDTO;
+import com.example.Cart.Model.Entities.Carrinho;
+import com.example.Cart.Service.CarrinhoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.NoSuchElementException;
+
 @RestController
-@RequestMapping("/cart")
+@RequestMapping("/api/carrinho")
 public class CarrinhoController {
 
     @Autowired
     private CarrinhoService carrinhoService;
 
-    @PostMapping
-    public ResponseEntity<Carrinho> criarCarrinho(@RequestBody CarrinhoDTO carrinhoDTO) {
-        Carrinho novoCarrinho = carrinhoService.criarCarrinho(carrinhoDTO);
-        return new ResponseEntity<>(novoCarrinho, HttpStatus.CREATED);
+    // Endpoint para buscar um carrinho pelo ID
+    @GetMapping("/{id}")
+    public ResponseEntity<CarrinhoDTO> getCarrinhoById(@PathVariable Long id) {
+        return carrinhoService.getCarrinhoById(id)
+                .map(carrinho -> ResponseEntity.ok(new CarrinhoDTO(carrinho)))
+                .orElseThrow(() -> new NoSuchElementException("Carrinho não encontrado"));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Carrinho> buscarCarrinho(@PathVariable Long id) {
-        try {
-            Carrinho carrinho = carrinhoService.getCarrinhoById(id);  // Implemente este método no service
-            return ResponseEntity.ok(carrinho);
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+    // Endpoint para criar um novo carrinho
+    @PostMapping
+    public ResponseEntity<Carrinho> criarCarrinho(@RequestBody CarrinhoDTO carrinhoDTO) {
+        Carrinho carrinho = carrinhoService.criarCarrinho(carrinhoDTO);
+        return ResponseEntity.ok(carrinho);
     }
 }

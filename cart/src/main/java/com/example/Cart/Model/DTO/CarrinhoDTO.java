@@ -1,15 +1,20 @@
-package com.example.Carrinho.Model.DTO;
+package com.example.Cart.Model.DTO;
 
+import com.example.Cart.Model.Entities.Carrinho;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-
 import java.time.LocalDateTime;
 
 @Data
+@AllArgsConstructor
 public class CarrinhoDTO {
 
     private Long clientId;
     private Long carId;
     private LocalDateTime rentalStart;
     private LocalDateTime rentalEnd;
-    private Double price;  // Você pode ignorar este campo se quiser calcular no backend
+    private Double price;
+
+    public CarrinhoDTO(Carrinho carrinho) {
+    }
 }

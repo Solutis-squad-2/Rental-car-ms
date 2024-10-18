@@ -1,16 +1,15 @@
-package com.example.Carrinho.Service;
+package com.example.Cart.Service;
 
-import com.example.Carrinho.Model.DTO.CarrinhoDTO;
-import com.example.Carrinho.Model.Entities.Carrinho;
-import com.example.Carrinho.Repository.CarrinhoRepository;
+import com.example.Cart.Model.DTO.CarrinhoDTO;
+import com.example.Cart.Model.Entities.Carrinho;
+import com.example.Cart.Repository.CarrinhoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.Carro.Model.Entities.Carro;
 import com.example.Carro.Service.CarroService;
 
-
 import java.time.Duration;
-import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class CarrinhoService {
@@ -19,26 +18,42 @@ public class CarrinhoService {
     private CarrinhoRepository carrinhoRepository;
 
     @Autowired
-    private CarroService carroService;  // Supondo que você tenha um CarroService para acessar informações de carro
+    private CarroService carroService;
 
+    // Método para criar um novo carrinho
     public Carrinho criarCarrinho(CarrinhoDTO carrinhoDTO) {
-        try {
-            Carrinho carrinho = new Carrinho();
-            carrinho.setClientId(carrinhoDTO.getClientId());
-            carrinho.setCarro(carroService.getCarroById(carrinhoDTO.getCarId()));  // Obtenha o carro pelo ID
-            carrinho.setRentalStart(carrinhoDTO.getRentalStart());
-            carrinho.setRentalEnd(carrinhoDTO.getRentalEnd());
-            carrinho.setPrice(calcularPreco(carrinhoDTO));
-            carrinho.setConfirmed(false);  // Carrinho ainda não confirmado
-            return carrinhoRepository.save(carrinho);
-        } catch (NoSuchElementException e) {
-            throw new IllegalArgumentException("Carro ou cliente não encontrados");
+        Carrinho carrinho = new Carrinho();
+        carrinho.setClientId(carrinhoDTO.getClientId());
+
+        // Aqui ajustamos o uso de orElseThrow
+        Optional<Carro> carroOptional = Optional.ofNullable(carroService.findById(carrinhoDTO.getCarId()));
+        if (carroOptional.isPresent()) {
+            carrinho.setCarro(carroOptional.get());
+        } else {
+            throw new IllegalArgumentException("Carro não encontrado");
         }
+
+        carrinho.setRentalStart(carrinhoDTO.getRentalStart());
+        carrinho.setRentalEnd(carrinhoDTO.getRentalEnd());
+        carrinho.setPrice(calcularPreco(carrinhoDTO));
+        carrinho.setConfirmed(false);  // Carrinho ainda não confirmado
+        return carrinhoRepository.save(carrinho);
     }
 
+    // Método para buscar um carrinho pelo ID
+    public Optional<Carrinho> getCarrinhoById(Long id) {
+        return carrinhoRepository.findById(id);
+    }
+
+    // Método para calcular o preço da locação
     private Double calcularPreco(CarrinhoDTO carrinhoDTO) {
         long dias = Duration.between(carrinhoDTO.getRentalStart(), carrinhoDTO.getRentalEnd()).toDays();
-        Carro carro = carroService.getCarroById(carrinhoDTO.getCarId());
-        return dias * carro.getValorDiaria();  // Multiplica os dias pelo valor da diária do carro
+        Optional<Carro> carroOptional = Optional.ofNullable(carroService.findById(carrinhoDTO.getCarId()));
+        if (carroOptional.isPresent()) {
+            Carro carro = carroOptional.get();
+            return (double) (dias * carro.getValorDiaria());  // Multiplica os dias pelo valor da diária do carro
+        } else {
+            throw new IllegalArgumentException("Carro não encontrado");
+        }
     }
 }
