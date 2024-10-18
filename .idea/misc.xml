@@ -8,6 +8,7 @@
         <option value="$PROJECT_DIR$/gateway/pom.xml" />
         <option value="$PROJECT_DIR$/driver/pom.xml" />
         <option value="$PROJECT_DIR$/car/pom.xml" />
+        <option value="$PROJECT_DIR$/cart/pom.xml" />
       </list>
     </option>
   </component>
