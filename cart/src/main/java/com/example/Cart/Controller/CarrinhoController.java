@@ -1,5 +1,6 @@
 package com.example.Cart.Controller;
 
+import com.example.Cart.Model.DTO.AluguelDTO;
 import com.example.Cart.Model.DTO.CarrinhoDTO;
 import com.example.Cart.Model.Entities.Carrinho;
 import com.example.Cart.Service.CarrinhoService;
@@ -20,14 +21,14 @@ public class CarrinhoController {
     @GetMapping("/{id}")
     public ResponseEntity<CarrinhoDTO> getCarrinhoById(@PathVariable Long id) {
         return carrinhoService.getCarrinhoById(id)
-                .map(carrinho -> ResponseEntity.ok(new CarrinhoDTO(carrinho)))
+                .map(ResponseEntity::ok)
                 .orElseThrow(() -> new NoSuchElementException("Carrinho não encontrado"));
     }
 
     // Endpoint para criar um novo carrinho
     @PostMapping
-    public ResponseEntity<Carrinho> criarCarrinho(@RequestBody CarrinhoDTO carrinhoDTO) {
-        Carrinho carrinho = carrinhoService.criarCarrinho(carrinhoDTO);
+    public ResponseEntity<CarrinhoDTO> criarCarrinho(@RequestBody AluguelDTO carrinhoDTO) {
+        CarrinhoDTO carrinho = carrinhoService.criarCarrinho(carrinhoDTO);
         return ResponseEntity.ok(carrinho);
     }
 }

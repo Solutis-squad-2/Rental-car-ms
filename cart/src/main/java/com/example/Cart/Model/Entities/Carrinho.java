@@ -1,11 +1,11 @@
 package com.example.Cart.Model.Entities;
 
+import com.example.Cart.Model.DTO.CarroDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.example.Carro.Model.Entities.Carro;
-import com.example.Carro.Service.CarroService;
+
 
 
 import java.time.LocalDateTime;
@@ -24,9 +24,7 @@ public class Carrinho {
     @Column(nullable = false)
     private Long clientId;  // Referência ao cliente (Pessoa)
 
-    @ManyToOne
-    @JoinColumn(name = "carro_id", nullable = false)
-    private Carro carro;  // Relacionamento com Carro
+    private Long carroId;  // Relacionamento com Carro
 
     @Column(nullable = false)
     private LocalDateTime rentalStart;  // Data de início do aluguel
@@ -40,6 +38,12 @@ public class Carrinho {
     @Column(nullable = false)
     private boolean confirmed;  // Indica se o aluguel foi confirmado ou está em processo
 
-    public Carrinho(long l, long l1, LocalDateTime localDateTime, LocalDateTime localDateTime1, double v, boolean b) {
+    public Carrinho(Long clientId, Long carroId, LocalDateTime rentalStart, LocalDateTime rentalEnd, Double price, boolean confirmed) {
+        this.clientId = clientId;
+        this.carroId = carroId;
+        this.rentalStart = rentalStart;
+        this.rentalEnd = rentalEnd;
+        this.price = price;
+        this.confirmed = confirmed;
     }
 }

@@ -5,16 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import java.time.LocalDateTime;
 
-@Data
-@AllArgsConstructor
-public class CarrinhoDTO {
-
-    private Long clientId;
-    private Long carId;
-    private LocalDateTime rentalStart;
-    private LocalDateTime rentalEnd;
-    private Double price;
-
-    public CarrinhoDTO(Carrinho carrinho) {
-    }
+public record CarrinhoDTO(
+        Long clientId,
+        LocalDateTime rentalStart,
+        LocalDateTime rentalEnd,
+        Double price,
+        CarroDTO carro
+) {
 }
