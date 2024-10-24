@@ -1,4 +1,3 @@
-
 services:
   eureka-server:
     build:
@@ -23,6 +22,31 @@ services:
     depends_on:
       - db
 
+  car-ms:
+    build:
+      context: ./car
+      dockerfile: Dockerfile
+    container_name: car-ms
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/Carros_locadora?createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=12345678
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8081/eureka
+    depends_on:
+      - db
+
+  cart-ms:
+    build:
+      context: ./cart
+      dockerfile: Dockerfile
+    container_name: cart-ms
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/Cart_locadora?createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=12345678
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8081/eureka
+    depends_on:
+      - db
 
   gateway:
     build:
@@ -36,18 +60,20 @@ services:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8081/eureka
     depends_on:
       - eureka-server
-
+      - cart-ms
+      - car-ms
+      - driver-ms
 
   db:
     image: mysql:8
     container_name: rental-db
     ports:
-      - "3308:3306"  # Expondo a porta 3308 do host para a porta 3306 do container
+      - "3308:3306"
     environment:
       MYSQL_ROOT_PASSWORD: 12345678
-      MYSQL_DATABASE: rental-car-drivers
+      MYSQL_DATABASE: Carros_locadora
     volumes:
-      - mysql-data:/var/lib/mysql  # Persistindo dados no volume
+      - mysql-data:/var/lib/mysql
 
 volumes:
-  mysql-data:  # Definindo um volume para persistência do banco de dados
+  mysql-data:
